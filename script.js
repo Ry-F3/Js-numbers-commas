@@ -3,15 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
     formatNumberInput(["numberInput", "valueOne", "valueTwo", "valueResult"]);
 });
 
-// Function to format number input for specific input elements
 function formatNumberInput(inputElementIds) {
-    // Add 'input' event listener to each specified input element
     inputElementIds.forEach((inputElementId) => {
         let inputElement = document.getElementById(inputElementId);
         if (inputElement) {
-            inputElement.addEventListener('input', function () {
-                // Remove all non-digit characters from the input value
-                let inputValue = inputElement.value.replace(/\D/g, '');
+            inputElement.addEventListener('blur', function () {
+                // Remove all non-digit characters except decimal points from the input value
+                let inputValue = inputElement.value.replace(/[^\d.]/g, '');
 
                 // Convert the cleaned input value to a number and format it using toLocaleString()
                 let formattedNumber = Number(inputValue).toLocaleString();
@@ -22,8 +20,6 @@ function formatNumberInput(inputElementIds) {
         }
     });
 }
-
-
 
 let valueOne = document.getElementById("valueOne");
 let valueTwo = document.getElementById("valueTwo");
@@ -39,14 +35,14 @@ let inputOne = 0;
 let inputTwo = 0;
 
 function handleInput(){
-    let inputOne = valueOne.value.replace(/,/g, ''); // Remove commas from the input value
-    let inputTwo = valueTwo.value.replace(/,/g, ''); // Remove commas from the input value
+let inputOne = valueOne.value;
+let inputTwo = valueTwo.value;
+
+    let numberOne = parseFloat(inputOne.replace(/,/g, '')); // Remove commas from the input value
+    let numberTwo = parseFloat(inputTwo.replace(/,/g, '')); // Remove commas from the input value
 
     // Check if the inputs have a valid number
-    if (isValidNumber(inputOne) && isValidNumber(inputTwo)) {
-        let numberOne = parseFloat(inputOne);
-        let numberTwo = parseFloat(inputTwo);
-
+    if (!isNaN(numberOne) && !isNaN(numberTwo)) {
         addition(numberOne, numberTwo);
     } else {
         resultInput.value = ''; // Clear the result input field for invalid inputs
